@@ -1,4 +1,6 @@
 -- ollama.lua
+local Job = require('plenary.job')
+
 local M = {}
 
 function M.setup(config)
@@ -6,10 +8,17 @@ function M.setup(config)
 end
 
 function M.get_completions(line)
-  -- Example logic to get completions from Ollama
-  -- Implement the actual API call to Ollama here
-  local response = {}   -- Replace with actual API response
-  return response
+  local result = nil
+  Job:new({
+    command = 'ollama',
+    args = { 'run', M.config.model, '--input', line },
+    on_exit = function(j, return_val)
+      if return_val == 0 then
+        result = table.concat(j:result(), "\n")
+      end
+    end,
+  }):sync()
+  return result
 end
 
 return M
