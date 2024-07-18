@@ -37,4 +37,8 @@ function M.get(key)
   return M.options[key]
 end
 
+function M.set(key, value)
+  M.options[key] = value
+end
+
 return M
