@@ -15,7 +15,7 @@ function M.setup()
   end, {})
 
   -- Configurar keymaps
-  local keymaps = require('ia_autocomplete.config').get('keymaps')
+  local keymaps = require('codevim.config').get('keymaps')
   vim.keymap.set('n', keymaps.toggle_autocomplete, ':IAToggleAutocomplete<CR>', { silent = true })
   vim.keymap.set('n', keymaps.toggle_spell, ':IAToggleSpell<CR>', { silent = true })
   vim.keymap.set('n', keymaps.toggle_suggest, ':IAToggleSuggest<CR>', { silent = true })

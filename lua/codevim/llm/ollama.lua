@@ -1,5 +1,4 @@
 local curl = require('plenary.curl')
-local json = require('cjson')
 local config = require('codevim.config')
 
 local M = {}
@@ -28,7 +27,7 @@ function M.query(prompt, context)
   local full_prompt = build_prompt(context, prompt)
 
   local response = curl.post(M.ollama_config.url .. '/api/generate', {
-    body = json.encode({
+    body = vim.json.encode({
       model = M.model,
       prompt = full_prompt,
       stream = false
@@ -43,7 +42,7 @@ function M.query(prompt, context)
     error("Failed to query Ollama: " .. (response.body or "Unknown error"))
   end
 
-  local result = json.decode(response.body)
+  local result = vim.json.decode(response.body)
   return result.response
 end
 
@@ -58,3 +57,4 @@ function M.health_check()
 end
 
 return M
+

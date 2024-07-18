@@ -1,6 +1,6 @@
-local config = require('ia_autocomplete.config')
+local config = require('codevim.config')
 local scan = require('plenary.scandir')
-local path = require('plenary.path')
+local Path = require('plenary.path')
 
 local M = {}
 
@@ -19,7 +19,12 @@ end
 -- Función para verificar si un archivo debe ser indexado
 local function should_index_file(file_path)
   local patterns = config.get('index_files')
-  local file_name = path.new(file_path):filename()
+  if not patterns or type(patterns) ~= "table" then
+    vim.notify("La configuración 'index_files' no es válida.", vim.log.levels.ERROR)
+    return false
+  end
+
+  local file_name = vim.fn.fnamemodify(file_path, ":t")
   for _, pattern in ipairs(patterns) do
     if file_name:match(pattern) then
       return true
@@ -76,7 +81,7 @@ end
 -- Configura un autocomando para reindexar cuando se guarda un archivo
 local function setup_auto_index()
   vim.api.nvim_create_autocmd("BufWritePost", {
-    group = vim.api.nvim_create_augroup("IAAutocompleteBufWritePost", { clear = true }),
+    group = vim.api.nvim_create_augroup("CodeVimBufWritePost", { clear = true }),
     callback = function(ev)
       M.update_file(ev.file)
     end,
@@ -84,8 +89,13 @@ local function setup_auto_index()
 end
 
 function M.setup()
+  if not config.get('index_files') then
+    vim.notify("La configuración 'index_files' no está definida. No se realizará la indexación.", vim.log.levels.WARN)
+    return
+  end
   M.index_files()    -- Indexar archivos al inicio
   setup_auto_index() -- Configurar autocomando para reindexar
 end
 
 return M
+

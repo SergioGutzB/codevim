@@ -1,7 +1,7 @@
 local M = {}
 
 M.defaults = {
-  index_files = { "*.lua", "*.py", "*.js" },
+  index_files = { "*.lua", "*.py", "*.js", "*.ts" },
   keymaps = {
     toggle_autocomplete = "<leader>ta",
     toggle_spell = "<leader>ts",
