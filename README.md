@@ -1,26 +1,23 @@
 # codevim
 
-codevim is a Neovim plugin for intelligent code completion and generation using Ollama and Codeqwen.
+Un plugin de Neovim para autocompletado, corrección ortográfica y sugerencias usando IA con Ollama.
 
-## Installation
+## Requisitos
 
-To install this plugin using [lazy.nvim](https://github.com/folke/lazy.nvim), add the following to your Neovim configuration:
+- Neovim 0.5+
+- [Ollama](https://ollama.ai/) instalado y configurado
+- [lazy.nvim](https://github.com/folke/lazy.nvim) (gestor de plugins)
+
+## Instalación
+
+Usando lazy.nvim, añade esto a tu configuración:
 
 ```lua
--- ~/.config/nvim/lua/plugins/codevim.lua
-return {
-  {
-    "SergioGutzB/codevim",
-    opts = {
-      ollama = {
-        api_key = 'your_ollama_api_key',
-        -- other config options
-      },
-      codeqwen = {
-        api_key = 'your_codeqwen_api_key',
-        -- other config options
-      }
-    }
-  }
+{
+  "SergioGutzB/codevim",
+  config = function()
+    require("codevim").setup({
+      -- Tu configuración personalizada aquí
+    })
+  end,
 }
-
